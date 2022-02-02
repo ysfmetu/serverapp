@@ -1,0 +1,3 @@
+export enum DataState {
+    LOADING_STATE = 'YÜKLENİYOR', LOADED_STATE = 'YÜKLENDİ', ERROR_STATE = 'HATA OLUŞTU'
+}

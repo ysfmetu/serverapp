@@ -1,0 +1,61 @@
+<ng-container
+*ngIf="appState$ | async as appState"
+[ngSwitch]="appState.dataState"
+>
+<ng-container *ngSwitchCase="DataState.LOADING_STATE">
+  <div class="col-md-12 single-note-item text-center">
+    <div class="spinner-border text-info" role="status"></div>
+  </div>
+</ng-container>
+<ng-container *ngSwitchCase="DataState.LOADED_STATE">
+  <!-- <table class="table table-striped table-hover" id="servers">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Kategori</th>
+      </tr>
+    </thead>
+    <tbody
+      *ngFor="
+        let server of appState.appData.data.servers;
+        let i = index
+      "
+    >
+      <tr (click)="goServers(server.id)">
+        <td>{{ server.id }}</td>
+        <td>{{ server.categoryName }}</td>
+      </tr>
+    </tbody>
+  </table> -->
+  <!-- <div class="card text-white bg-primary mb-3" style="max-width: 18rem;" >
+    <div class="card-header">KATEGORİLER</div>
+    <div  *ngFor="let server of appState.appData.data.servers" class="card-body" >
+      <a (click)="goServers(server.id)">
+      <h5 class="card-title">{{ server.categoryName }}</h5></a>
+    
+    </div>
+  </div> -->
+  <div style="display: flex;justify-content: center;margin-top: 15%;">
+
+  <div class="card text-dark bg-warning mb-3"  style="max-width: 18rem;">
+    <div class="card-header" style="text-align: center;font-size: larger; font-weight: bolder;">KATEGORİLER</div>
+      <div class="card-body bg-info" >
+        <a (click)="goServers(2)">
+        <h5 class="card-title" style="text-align: center;">Merkez </h5>
+        <p class="card-text">Merkez Kategorideki sunucu bilgileri listelenir</p></a>
+      </div>
+      <div class="card-body bg-success">
+        <a (click)="goServers(3)">
+        <h5 class="card-title" style="text-align: center;">Taşra </h5>
+        <p class="card-text">Taşra Kategorideki sunucu bilgileri listelenir</p></a>
+      </div>
+    </div> 
+  </div>
+
+</ng-container>
+<ng-container *ngSwitchCase="DataState.ERROR_STATE">
+  <div class="alert-danger">
+    {{ appState.error }}
+  </div>
+</ng-container>
+</ng-container>

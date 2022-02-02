@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
-  title = 'serverapp';
+export class AppComponent implements OnInit {
+  constructor() {}
+
+  ngOnInit(): void {}
 }

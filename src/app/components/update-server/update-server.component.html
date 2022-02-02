@@ -1,0 +1,116 @@
+<!-- Update server Modal HTML -->
+<div id="updateEmployeeModal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form #updateForm="ngForm" (ngSubmit)="updateServer(updateForm)">
+          <div class="modal-header">
+            <h4 class="modal-title">Add Server</h4>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-hidden="true"
+            >
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>IP ADRES</label>
+              <input
+                type="text"
+                ngModel
+                name="ipAddress"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Sunucu Adı</label>
+              <input
+                type="text"
+                ngModel
+                name="serverName"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Açıklamalar</label>
+              <input
+                type="text"
+                ngModel
+                name="detail"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="row">
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                <div class="form-group">
+                  <label>Kullanıcı adı</label>
+                  <input
+                    type="text"
+                    ngModel
+                    name="kullanici_adi"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                <div class="form-group">
+                  <label>Şifre</label>
+                  <input
+                    type="text"
+                    ngModel
+                    name="password"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select
+                name="status"
+                ngModel="SERVER_DOWN"
+                class="form-control"
+                name="status"
+                required
+              >
+                <option value="SERVER_UP">SERVER UP</option>
+                <option value="SERVER_DOWN">SERVER DOWN</option>
+              </select>
+            </div>        
+            <div class="form-group"> 
+                <label>Kategori Seçiniz</label>
+                <select  class="form-control" ngModel ="categoryName" name="categoryName" >
+                  <option *ngFor="let kategori of kategoriler" [value]="kategori.value">{{kategori.text}}</option>
+                </select>        
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-warning"
+              id="closeModal"
+              data-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              [disabled]="updateForm.invalid || (isLoading$ | async)"
+              class="btn btn-success"
+            >
+              <i *ngIf="isLoading$ | async" class="fas fa-spinner fa-spin"></i>
+              <span *ngIf="isLoading$ | async">Saving...</span>
+              <span *ngIf="!(isLoading$ | async)">Add</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
