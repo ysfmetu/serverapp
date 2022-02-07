@@ -27,6 +27,7 @@ export class AnasayfaComponent implements OnInit {
   filterStatus$ = this.filterSubject.asObservable();
   private isLoading = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoading.asObservable();
+  
   yeniForm=new IPFormModel();
 
   constructor(
@@ -101,42 +102,6 @@ export class AnasayfaComponent implements OnInit {
     );
   }
 
-  saveServer(serverForm: NgForm): void {
-    this.isLoading.next(true);
-    console.log(serverForm.value)
-    this.appState$ = this.serverService.save$(serverForm.value as Server).pipe(
-      map((response) => {
-        console.log(serverForm.value)
-        this.dataSubject.next({
-          ...response,
-          data: {
-            servers: [
-              response.data.server,
-              ...this.dataSubject.value.data.servers,
-            ],
-          },
-        });
-        this.notifier.onDefault(response.message);
-        document.getElementById('closeModal').click();
-        this.isLoading.next(false);
-        serverForm.resetForm({ status: this.Status.SERVER_DOWN });
-        return {
-          dataState: DataState.LOADED_STATE,
-          appData: this.dataSubject.value,
-        };
-      }),
-      startWith({
-        dataState: DataState.LOADED_STATE,
-        appData: this.dataSubject.value,
-      }),
-      catchError((error: string) => {
-        this.isLoading.next(false);
-        this.notifier.onError(error);
-        return of({ dataState: DataState.ERROR_STATE, error });
-      })
-    );
-  }
-
   filterServers(status: Status): void {
     this.appState$ = this.serverService
       .filter$(status, this.dataSubject.value)
@@ -155,35 +120,14 @@ export class AnasayfaComponent implements OnInit {
         })
       );
   }
-
-  deleteServer(server: Server): void {
-    this.appState$ = this.serverService.delete$(server.id).pipe(
-      map((response) => {
-        this.dataSubject.next({
-          ...response,
-          data: {
-            servers: this.dataSubject.value.data.servers.filter(
-              (s) => s.id !== server.id
-            ),
-          },
-        });
-        this.notifier.onDefault(response.message);
-        return {
-          dataState: DataState.LOADED_STATE,
-          appData: this.dataSubject.value,
-        };
-      }),
-      startWith({
-        dataState: DataState.LOADED_STATE,
-        appData: this.dataSubject.value,
-      }),
-      catchError((error: string) => {
-        this.notifier.onError(error);
-        return of({ dataState: DataState.ERROR_STATE, error });
-      })
-    );
+  deleteServer(serverId:number){
+    this.yeniForm.reset();
+    this.yeniForm.patchValue({id:serverId})
   }
-
+  pasifYap(){
+    alert(this.yeniForm.get('id').value)
+  }
+  
   printReport(): void {
     this.notifier.onDefault('Report downloaded');
     // window.print();
@@ -198,53 +142,27 @@ export class AnasayfaComponent implements OnInit {
     document.body.removeChild(downloadLink);
   }
 
-
   updateServer(server?): void {
     console.log(server);
     this.yeniForm.reset ();
     
-    this.yeniForm.patchValue({categoryId:server.category?.id,...server});
-  
-    // console.log(updateForm.value)
-    // this.appState$ = this.serverService.update$(updateForm.value as Server).pipe(
-    //   map((response) => {
-    //     console.log(updateForm.value)
-    //     this.dataSubject.next({
-    //       ...response,
-    //       data: {
-    //         servers: [
-    //           response.data.server,
-    //           ...this.dataSubject.value.data.servers,
-    //         ],
-    //       },
-    //     });
-    //     this.notifier.onDefault(response.message);
-    //     document.getElementById('closeModal').click();
-    //     this.isLoading.next(false);
-    //     updateForm.resetForm({ status: this.Status.SERVER_DOWN });
-    //     return {
-    //       dataState: DataState.LOADED_STATE,
-    //       appData: this.dataSubject.value,
-    //     };
-    //   }),
-    //   startWith({
-    //     dataState: DataState.LOADED_STATE,
-    //     appData: this.dataSubject.value,
-    //   }),
-    //   catchError((error: string) => {
-    //     this.isLoading.next(false);
-    //     this.notifier.onError(error);
-    //     return of({ dataState: DataState.ERROR_STATE, error });
-    //   })
-    // );
+    this.yeniForm.patchValue({categoryId:server.category?.id,...server});  
   }
   formSubmit(){
     this.serverService.update$(this.yeniForm.value).subscribe(x=>{
    
-    })
-
-    this.serverService.filter$
-    
+    })    
+    this.serverService.filter$   
     
   }
+  formDelete(){
+    console.log(this.yeniForm.value);
+    
+    this.serverService.delete$(this.yeniForm.value).subscribe(x=>{
+
+    })
+    this.serverService.filter$  
+    
+  }
+
 }

@@ -12,7 +12,7 @@ export class LoginFormModel extends FormGroup {
   constructor(def?) {
     super({
       userName: new FormControl('yusuf.ulku', Validators.required),
-      password: new FormControl('1', Validators.required),
+      password: new FormControl('Ysf_123_14', Validators.required),
     });
   }
 }
